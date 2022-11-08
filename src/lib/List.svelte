@@ -48,7 +48,7 @@
           on:input={handleInputChange}
         />
       {:else}
-        <span :title={list}>{list}</span>
+        <span title={list}>{list}</span>
       {/if}
 
       <div class="event">
