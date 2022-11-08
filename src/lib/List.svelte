@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { afterUpdate } from "svelte";
   import type { EditFunction, DeleteFunction, List } from "../types";
   export let onEdit: EditFunction;
   export let onDelete: DeleteFunction;
@@ -19,6 +20,9 @@
   }
   // 处理确认编辑
   function handleSureEdit(index) {
+    if (inputValue === "") {
+      return onDelete(index);
+    }
     onEdit(index, inputValue);
     editIndex = undefined;
     inputValue = undefined;
@@ -38,12 +42,16 @@
   {#each lists as list, index (index)}
     <div class="list">
       {#if index === editIndex}
-        <input bind:value={inputValue} on:input={handleInputChange} />
+        <input
+          bind:value={inputValue}
+          placeholder="请输入代办项。注意：如空值确认则会删除该项！"
+          on:input={handleInputChange}
+        />
       {:else}
-        <span>{list}</span>
+        <span :title={list}>{list}</span>
       {/if}
 
-      <div>
+      <div class="event">
         {#if index === editIndex}
           <button
             on:click={() => {
@@ -72,12 +80,33 @@
 
 <style lang="scss">
   .container {
-    height: calc(100% - 57px);
+    height: calc(100% - 50px);
+    overflow-x: auto;
+    margin-top: 20px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     .list {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 40px;
+      height: 45px;
+      margin-bottom: 10px;
+      .event {
+        flex-basis: 125px;
+      }
+      input {
+        width: calc(100% - 150px);
+        height: 31px;
+        font-size: 16px;
+      }
+      span {
+        width: calc(100% - 150px);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-align: left;
+      }
     }
     .no-data {
       display: flex;

@@ -13,7 +13,6 @@
     lists = [...lists, data];
   }
   function handleEdit(index: number, value: string) {
-    console.log(index, value);
     lists[index] = value;
   }
   function handleDelete(index: number) {
@@ -23,15 +22,57 @@
 </script>
 
 <div class="box">
-  <Edit {handleAdd} />
+  <Edit onAdd={handleAdd} />
   <List {lists} onEdit={handleEdit} onDelete={handleDelete} />
 </div>
+<footer>
+  source :
+  <a
+    href="https://github.com/geekris1/svelte-todolist"
+    target="_blank"
+    rel="noreferrer"
+  >
+    https://github.com/geekris1/svelte-todolist</a
+  >
+</footer>
 
 <style lang="scss">
   .box {
-    width: 40vw;
-    height: 60vh;
+    width: 50vw;
+    height: 70vh;
     background-color: #333;
     border-radius: 8px;
+    padding: 20px 30px;
+  }
+  @media (max-width: 1400px) {
+    .box {
+      width: 55vw;
+      height: 75vh;
+      background-color: #333;
+      border-radius: 8px;
+      padding: 20px 30px;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .box {
+      width: 75vw;
+      height: 80vh;
+      background-color: #333;
+      border-radius: 8px;
+      padding: 20px 30px;
+    }
+  }
+
+  footer {
+    margin-top: 10px;
+    a {
+      color: #fff;
+      &:link,
+      &:hover,
+      &:visited {
+        color: #fff;
+      }
+    }
   }
 </style>
